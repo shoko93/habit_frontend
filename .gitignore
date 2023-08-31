@@ -4,3 +4,5 @@
 .nuxt
 /dist
 .env
+.yarn
+.yarnrc.yml
