@@ -1,12 +1,15 @@
 <template>
   <div>
+    <div v-show="showMessage">
+      <p>{{ message }}</p>
+    </div>
     <div>
       タイトル<br>
       <input type="text" v-model="title">
     </div>
     <div>
       本文<br>
-      <textarea v-model="text_bdoy"></textarea>
+      <textarea v-model="textBody"></textarea>
     </div>
     <div>
       <button @click="submit">送信</button>
@@ -19,9 +22,11 @@ export default {
   data: function() {
     return {
       title: "",
-      text_bdoy: "",
+      textBody: "",
       sdkVersion: "",
-      liffError: ""
+      liffError: "",
+      message: "",
+      showMessage: false,
     };
   },
   async mounted() {
@@ -34,13 +39,21 @@ export default {
       });
   },
   methods: {
-    submit: async function() {
+    submit: function() {
       let data = {
         title: this.title,
-        text_body: this.text_bdoy,
+        text_body: this.textBody,
         line_id_token: this.$liff.getIDToken()
       }
-      await axios.post('/posts', {post: data})
+      axios.post('/posts', {post: data})
+        .then((response) => {
+          this.message = "登録完了しました"
+          this.showMessage = true
+        })
+        .catch((error) => {
+          this.message = "登録に失敗しました"
+          this.showMessage = true
+        })
     }
   }
 };
