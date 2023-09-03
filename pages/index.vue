@@ -55,7 +55,6 @@ export default {
         text_body: this.textBody,
         line_id_token: this.$liff.getIDToken()
       }
-      console.log(data)
       axios.post('/posts', {post: data})
         .then((response) => {
           this.message = "登録完了しました"
