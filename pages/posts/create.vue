@@ -1,32 +1,40 @@
 <template>
   <div>
-    <v-row v-for="item in data" :key="item.id">
+    <div v-show="showMessage">
+      <p>{{ message }}</p>
+    </div>
+    <v-row>
       <v-col col="12">
-        <v-card
-          elevation="2"
+        <v-text-field label="タイトル" v-model="title"></v-text-field>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col col="12">
+        <v-textarea label="本文" v-model="textBody"></v-textarea>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col col="12" class="text-right">
+        <v-btn
+          depressed
+          color="primary"
+          @click="submit"
         >
-          <v-card-title>{{ item.title }}</v-card-title>
-          <v-card-text>
-            {{ item.created_at}}<br>
-            {{ item.text_body }}
-          </v-card-text>
-          <v-card-actions>
-            <v-btn text>いいね</v-btn>
-            <v-btn text>コメント</v-btn>
-            <v-btn text>お気に入り</v-btn>
-          </v-card-actions>
-        </v-card>
+          送信
+        </v-btn>
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
 import axios from '~/plugins/axios'
-import moment from 'moment'
 export default {
   data: function() {
     return {
-      data: [],
+      title: "",
+      textBody: "",
+      sdkVersion: "",
+      liffError: "",
       message: "",
       showMessage: false,
     };
@@ -39,16 +47,6 @@ export default {
       .catch((error) => {
         this.liffError = error;
       });
-    axios.get('/posts')
-      .then((response) => {
-        this.data = response.data.map((item) => {
-          item.created_at = moment(item.created_at).format('YYYY-MM-DD H:m')
-          return item
-        });
-      })
-      .catch((error) => {
-        console.log(error)
-      })
   },
   methods: {
     submit: function() {

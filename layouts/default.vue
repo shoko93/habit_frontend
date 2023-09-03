@@ -2,6 +2,21 @@
   <v-app>
     <v-navigation-drawer app v-model="drawer">
       <!-- -->
+      <v-list
+        dense
+        nav
+      >
+        <v-list-item to='/'>
+          <v-list-item-content>
+            <v-list-item-title>一覧</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to='/posts/create'>
+          <v-list-item-content>
+            <v-list-item-title>新規登録</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
 
     <v-app-bar app>
