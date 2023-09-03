@@ -3,17 +3,27 @@
     <div v-show="showMessage">
       <p>{{ message }}</p>
     </div>
-    <div>
-      タイトル<br>
-      <input type="text" v-model="title">
-    </div>
-    <div>
-      本文<br>
-      <textarea v-model="textBody"></textarea>
-    </div>
-    <div>
-      <button @click="submit">送信</button>
-    </div>
+    <v-row>
+      <v-col col="12">
+        <v-text-field label="タイトル" v-model="title"></v-text-field>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col col="12">
+        <v-textarea label="本文" v-model="textBody"></v-textarea>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col col="12" class="text-right">
+        <v-btn
+          depressed
+          color="primary"
+          @click="submit"
+        >
+          送信
+        </v-btn>
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script>
@@ -45,6 +55,7 @@ export default {
         text_body: this.textBody,
         line_id_token: this.$liff.getIDToken()
       }
+      console.log(data)
       axios.post('/posts', {post: data})
         .then((response) => {
           this.message = "登録完了しました"
