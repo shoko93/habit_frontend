@@ -14,6 +14,16 @@
       </v-col>
     </v-row>
     <v-row>
+      <v-col cols="12">
+        <v-combobox
+          v-model="select"
+          :items="items"
+          label="タグ"
+          multiple
+        ></v-combobox>
+      </v-col>
+    </v-row>
+    <v-row>
       <v-col col="12" class="text-right">
         <v-btn
           depressed
@@ -37,6 +47,8 @@ export default {
       liffError: "",
       message: "",
       showMessage: false,
+      select: [],
+      items: [],
     };
   },
   async mounted() {
@@ -53,9 +65,10 @@ export default {
       let data = {
         title: this.title,
         text_body: this.textBody,
+        tags: this.select,
         line_id_token: this.$liff.getIDToken()
       }
-      axios.post('/posts', {post: data})
+      axios.post('/posts/create', {post: data})
         .then((response) => {
           this.message = "登録完了しました"
           this.showMessage = true

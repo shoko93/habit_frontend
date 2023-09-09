@@ -9,6 +9,11 @@
           <v-card-text>
             {{ item.created_at}}<br>
             {{ item.text_body }}
+            <v-row class="mt-2">
+              <v-col col="12">
+                <v-btn text v-for="tag in item.tags" :key="tag.id">{{ tag.tag }}</v-btn>
+              </v-col>
+            </v-row>
           </v-card-text>
           <v-card-actions>
             <v-btn icon @click="like(index)"><v-icon :color="iconColor(item.like)">mdi-thumb-up</v-icon></v-btn>
