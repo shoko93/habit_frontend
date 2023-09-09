@@ -13,10 +13,8 @@ export default (context, inject) => {
   const initResult = liff.init({liffId: process.env.LIFF_ID})
     .then(() => {
       console.log('liff.init() done');
-      if (process.env.NODE_ENV == 'production') {
-        if (!liff.isLoggedIn()) {
-          liff.login();
-        }
+      if (!liff.isLoggedIn()) {
+        liff.login();
       }
     })
     .catch(error => {

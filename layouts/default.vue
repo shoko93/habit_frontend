@@ -16,6 +16,11 @@
             <v-list-item-title>新規登録</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item to='/posts/bookmark'>
+          <v-list-item-content>
+            <v-list-item-title>お気に入り</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 

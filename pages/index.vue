@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row v-for="item in data" :key="item.id">
+    <v-row v-for="(item, index) in data" :key="item.id">
       <v-col col="12">
         <v-card
           elevation="2"
@@ -11,9 +11,9 @@
             {{ item.text_body }}
           </v-card-text>
           <v-card-actions>
-            <v-btn text>いいね</v-btn>
-            <v-btn text>コメント</v-btn>
-            <v-btn text>お気に入り</v-btn>
+            <v-btn icon @click="like(index)"><v-icon :color="iconColor(item.like)">mdi-thumb-up</v-icon></v-btn>
+            <v-btn icon :to="'/posts/' + item.id + '/comment'"><v-icon>mdi-comment-text</v-icon></v-btn>
+            <v-btn icon @click="bookmark(index)"><v-icon :color="iconColor(item.bookmark)">mdi-heart</v-icon></v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -39,7 +39,7 @@ export default {
       .catch((error) => {
         this.liffError = error;
       });
-    axios.get('/posts')
+    axios.post('/posts', {line_id_token: this.$liff.getIDToken()})
       .then((response) => {
         this.data = response.data.map((item) => {
           item.created_at = moment(item.created_at).format('YYYY-MM-DD H:m')
@@ -51,20 +51,37 @@ export default {
       })
   },
   methods: {
-    submit: function() {
+    iconColor: function(like) {
+      return like ? "blue" : ""
+    },
+    like: function(index) {
       let data = {
-        title: this.title,
-        text_body: this.textBody,
+        post_id: this.data[index].id,
         line_id_token: this.$liff.getIDToken()
       }
-      axios.post('/posts', {post: data})
+      axios.post('/posts/like', {like: data})
         .then((response) => {
-          this.message = "登録完了しました"
-          this.showMessage = true
+          let item = this.data[index]
+          item.like = true
+          this.$set(this.data, index, item)
         })
         .catch((error) => {
-          this.message = "登録に失敗しました"
-          this.showMessage = true
+          console.log(error)
+        })
+    },
+    bookmark: function(index) {
+      let data = {
+        post_id: this.data[index].id,
+        line_id_token: this.$liff.getIDToken()
+      }
+      axios.post('/posts/bookmark', {bookmark: data})
+        .then((response) => {
+          let item = this.data[index]
+          item.bookmark = true
+          this.$set(this.data, index, item)
+        })
+        .catch((error) => {
+          console.log(error)
         })
     }
   }

@@ -1,9 +1,9 @@
 export default {
   target: 'static',
   head: {
-    title: 'LIFF Starter',
+    title: '畑-habit-',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ja'
     },
     meta: [
       { charset: 'utf-8' },
