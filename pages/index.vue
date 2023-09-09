@@ -34,7 +34,7 @@ export default {
   async mounted() {
     this.$liffInit
       .then(() => {
-        this.sdkVersion = liff.getVersion();
+        console.log(this.$liff.getIDToken())
       })
       .catch((error) => {
         this.liffError = error;
