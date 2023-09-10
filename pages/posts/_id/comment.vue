@@ -92,19 +92,18 @@
     async mounted() {
       this.$liffInit
         .then(() => {
-          console.log(this.$liff.getIDToken())
+          axios.post(`/posts/${this.$route.params.id}`, {line_id_token: this.$liff.getIDToken()})
+            .then((response) => {
+              this.item = response.data
+              this.$set(this.item, 'created_at', moment(this.item.created_at).format('YYYY-MM-DD H:m'))
+            })
+            .catch((error) => {
+              console.log(error)
+            })
         })
         .catch((error) => {
           this.liffError = error;
         });
-      axios.post(`/posts/${this.$route.params.id}`, {line_id_token: this.$liff.getIDToken()})
-        .then((response) => {
-          this.item = response.data
-          this.$set(this.item, 'created_at', moment(this.item.created_at).format('YYYY-MM-DD H:m'))
-        })
-        .catch((error) => {
-          console.log(error)
-        })
       this.getComments();
     },
     methods: {

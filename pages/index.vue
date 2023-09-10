@@ -39,21 +39,20 @@ export default {
   async mounted() {
     this.$liffInit
       .then(() => {
-        console.log(this.$liff.getIDToken())
+        axios.post('/posts', {line_id_token: this.$liff.getIDToken()})
+          .then((response) => {
+            this.data = response.data.map((item) => {
+              item.created_at = moment(item.created_at).format('YYYY-MM-DD H:m')
+              return item
+            });
+          })
+          .catch((error) => {
+            console.log(error)
+          })
       })
       .catch((error) => {
         this.liffError = error;
       });
-    axios.post('/posts', {line_id_token: this.$liff.getIDToken()})
-      .then((response) => {
-        this.data = response.data.map((item) => {
-          item.created_at = moment(item.created_at).format('YYYY-MM-DD H:m')
-          return item
-        });
-      })
-      .catch((error) => {
-        console.log(error)
-      })
   },
   methods: {
     iconColor: function(like) {
