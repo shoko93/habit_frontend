@@ -4,6 +4,16 @@
       <p>{{ message }}</p>
     </div>
     <v-row>
+      <v-col cols="12">
+        <v-file-input
+          label="image"
+          accept="image/*"
+          v-model="addImage"
+          prepend-icon="mdi-camera"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
       <v-col col="12">
         <v-text-field label="タイトル" v-model="title"></v-text-field>
       </v-col>
@@ -49,6 +59,7 @@ export default {
       showMessage: false,
       select: [],
       items: [],
+      addImage: [],
     };
   },
   async mounted() {
@@ -70,8 +81,25 @@ export default {
       }
       axios.post('/posts/create', {post: data})
         .then((response) => {
-          this.message = "登録完了しました"
-          this.showMessage = true
+          if (this.addImage) {
+            const formData = new FormData()
+            formData.append('id', response.data.id)
+            formData.append('image', this.addImage)
+            const config = {
+              headders: {
+                'content-type': 'multipart/form-data'
+              }
+            }
+            axios.post('/posts/image', formData, config)
+              .then(() => {
+                this.message = "登録完了しました"
+                this.showMessage = true
+              })
+              .catch(() => {
+                this.message = "登録に失敗しました"
+                this.showMessage = true
+              })
+          }
         })
         .catch((error) => {
           this.message = "登録に失敗しました"

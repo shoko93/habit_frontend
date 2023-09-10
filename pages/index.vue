@@ -7,6 +7,12 @@
         >
           <v-card-title>{{ item.title }}</v-card-title>
           <v-card-text>
+            <v-img
+              v-if="item.image.url"
+              max-height="150"
+              max-width="250"
+              :src="item.image.url"
+            ></v-img>
             {{ item.created_at}}<br>
             {{ item.text_body }}
             <v-row class="mt-2">
