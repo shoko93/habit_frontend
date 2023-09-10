@@ -21,6 +21,11 @@
             <v-list-item-title>お気に入り</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item @click="logout">
+          <v-list-item-content>
+            <v-list-item-title>ログアウト</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -48,5 +53,11 @@
     data: () => ({
       drawer: false,
     }),
+    methods: {
+      logout: function() {
+        this.$liff.logout()
+        location.reload();
+      },
+    }
   }
 </script>
