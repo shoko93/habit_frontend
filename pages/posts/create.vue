@@ -59,7 +59,7 @@ export default {
       showMessage: false,
       select: [],
       items: [],
-      addImage: [],
+      addImage: null,
     };
   },
   async mounted() {
@@ -70,6 +70,15 @@ export default {
       .catch((error) => {
         this.liffError = error;
       });
+    axios.get('/tags')
+      .then((response) => {
+        response.data.forEach((element) => {
+          this.items.push(element.tag)
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   },
   methods: {
     submit: function() {
@@ -99,6 +108,9 @@ export default {
                 this.message = "登録に失敗しました"
                 this.showMessage = true
               })
+          } else {
+            this.message = "登録完了しました"
+            this.showMessage = true
           }
         })
         .catch((error) => {
