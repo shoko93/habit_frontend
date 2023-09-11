@@ -56,7 +56,7 @@
             {{ item.text_body }}
             <v-row class="mt-2">
               <v-col col="12">
-                <v-btn text v-for="tag in item.tags" :key="tag.id">{{ tag.tag }}</v-btn>
+                <v-btn text v-for="tag in item.tags" :key="tag.id" @click="tagSearch(tag.tag)">{{ tag.tag }}</v-btn>
               </v-col>
             </v-row>
           </v-card-text>
@@ -200,6 +200,12 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    tagSearch: function(tag) {
+      this.keyword = ""
+      this.select = []
+      this.select.push(tag)
+      this.search()
     }
   }
 };
