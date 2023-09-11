@@ -225,7 +225,10 @@ export default {
       }
       axios.post('/posts/search', data)
         .then((response) => {
-          this.data = response.data
+          this.data = response.data.map((item) => {
+            item.created_at = moment(item.created_at).format('YYYY-MM-DD H:m')
+            return item
+          });
         })
         .catch((error) => {
           console.log(error)
