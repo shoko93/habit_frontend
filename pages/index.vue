@@ -143,34 +143,64 @@ export default {
       return like ? "blue" : ""
     },
     like: function(index) {
-      let data = {
-        post_id: this.data[index].id,
-        line_id_token: this.$liff.getIDToken()
+      if (this.data[index].like) {
+        let data = {
+          line_id_token: this.$liff.getIDToken()
+        }
+        axios.delete(`/posts/${this.data[index].id}/like`, {data: data})
+          .then((response) => {
+            let item = this.data[index]
+            item.like = false
+            this.$set(this.data, index, item)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      } else {
+        let data = {
+          post_id: this.data[index].id,
+          line_id_token: this.$liff.getIDToken()
+        }
+        axios.post('/posts/like', {like: data})
+          .then((response) => {
+            let item = this.data[index]
+            item.like = true
+            this.$set(this.data, index, item)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
       }
-      axios.post('/posts/like', {like: data})
-        .then((response) => {
-          let item = this.data[index]
-          item.like = true
-          this.$set(this.data, index, item)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
     },
     bookmark: function(index) {
-      let data = {
-        post_id: this.data[index].id,
-        line_id_token: this.$liff.getIDToken()
+      if (this.data[index].bookmark) {
+        let data = {
+          line_id_token: this.$liff.getIDToken()
+        }
+        axios.delete(`/posts/${this.data[index].id}/bookmark`, {data: data})
+          .then((response) => {
+            let item = this.data[index]
+            item.bookmark = false
+            this.$set(this.data, index, item)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      } else {
+        let data = {
+          post_id: this.data[index].id,
+          line_id_token: this.$liff.getIDToken()
+        }
+        axios.post('/posts/bookmark', {bookmark: data})
+          .then((response) => {
+            let item = this.data[index]
+            item.bookmark = true
+            this.$set(this.data, index, item)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
       }
-      axios.post('/posts/bookmark', {bookmark: data})
-        .then((response) => {
-          let item = this.data[index]
-          item.bookmark = true
-          this.$set(this.data, index, item)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
     },
     deleteConfirm: function(index) {
       this.deleteIndex = index
