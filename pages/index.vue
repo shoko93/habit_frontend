@@ -42,6 +42,7 @@
     <PostList
       :data="data"
       :currentUserId="currentUserId"
+      @tagClick="tagSearch"
     ></PostList>
   </div>
 </template>
@@ -69,16 +70,20 @@ export default {
           .catch((err) => {
             console.log("error", err)
           });
-        axios.post('/posts', {line_id_token: this.$liff.getIDToken()})
-          .then((response) => {
-            this.data = response.data.map((item) => {
-              item.created_at = moment(item.created_at).format('YYYY-MM-DD H:m')
-              return item
-            });
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+        if (this.$route.query.tag) {
+          this.tagSearch(this.$route.query.tag)
+        } else {
+          axios.post('/posts', {line_id_token: this.$liff.getIDToken()})
+            .then((response) => {
+              this.data = response.data.map((item) => {
+                item.created_at = moment(item.created_at).format('YYYY-MM-DD H:m')
+                return item
+              });
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+          }
       })
       .catch((error) => {
         this.liffError = error;

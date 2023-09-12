@@ -139,6 +139,13 @@ export default {
           console.log(error)
         })
     },
+    tagSearch: function(tag) {
+      if (this.$route.path == '/') {
+        this.$emit('tagClick', tag)
+      } else {
+        this.$router.push({path: '/', query :{tag:tag}})
+      }
+    }
   }
 };
 </script>
