@@ -2,19 +2,11 @@
     <div>
       <v-row>
         <v-col col="12">
-          <v-card
-            elevation="2"
-          >
-            <v-card-title>{{ item.title }}</v-card-title>
-            <v-card-text>
-              {{ item.created_at}}<br>
-              {{ item.text_body }}
-            </v-card-text>
-            <v-card-actions>
-              <v-btn icon @click="like(index)"><v-icon :color="iconColor(item.like)">mdi-thumb-up</v-icon></v-btn>
-              <v-btn icon @click="bookmark(index)"><v-icon :color="iconColor(item.bookmark)">mdi-heart</v-icon></v-btn>
-            </v-card-actions>
-          </v-card>
+          <PostItem
+            :post="item"
+            :currentUserId="currentUserId"
+            @deleteConfirm="deleteConfirm"
+          ></PostItem>
         </v-col>
       </v-row>
       <v-row>
@@ -68,6 +60,11 @@
           </v-card>
         </v-col>
       </v-row>
+      <DeleteDialog
+        :showDialog="showDialog"
+        @closeDialog="showDialog=false"
+        @deletePost="deletePost"
+      ></DeleteDialog>
     </div>
   </template>
   <script>
@@ -81,17 +78,30 @@
           created_at: "",
           text_body: "",
           like: false,
-          bookmark: false
+          bookmark: false,
+          image: {
+            url: ""
+          }
         },
+        currentUserId: "",
         comments: [],
         comment: "",
         message: "",
         showMessage: false,
+        showDialog: false,
       };
     },
-    async mounted() {
+    mounted() {
       this.$liffInit
         .then(() => {
+          liff
+            .getProfile()
+            .then((profile) => {
+              this.currentUserId = profile.userId
+            })
+            .catch((err) => {
+              console.log("error", err)
+            });
           axios.post(`/posts/${this.$route.params.id}`, {line_id_token: this.$liff.getIDToken()})
             .then((response) => {
               this.item = response.data
@@ -119,6 +129,18 @@
       iconColor: function(like) {
         return like ? "blue" : ""
       },
+      deleteConfirm: function() {
+        this.showDialog = true
+      },
+      deletePost: function() {
+        axios.delete(`/posts/${this.item.id}`)
+        .then((response) => {
+          this.$router.push({path: '/'})
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      },
       submit: function() {
         let data = {
           post_id: this.item.id,
@@ -136,36 +158,6 @@
             // this.showMessage = true
           })
       },
-      like: function(index) {
-        let data = {
-          post_id: this.item.id,
-          line_id_token: this.$liff.getIDToken()
-        }
-        axios.post('/posts/like', {like: data})
-          .then((response) => {
-            let item = this.data[index]
-            item.like = true
-            this.$set(this.data, index, item)
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      },
-      bookmark: function(index) {
-        let data = {
-          post_id: this.item.id,
-          line_id_token: this.$liff.getIDToken()
-        }
-        axios.post('/posts/bookmark', {bookmark: data})
-          .then((response) => {
-            let item = this.data[index]
-            item.bookmark = true
-            this.$set(this.data, index, item)
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      }
     }
   };
   </script>
