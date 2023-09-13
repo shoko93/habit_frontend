@@ -1,8 +1,21 @@
 <template>
   <div>
-    <div v-show="showMessage">
-      <p>{{ message }}</p>
-    </div>
+    <v-snackbar
+      v-model="showMessage"
+      :top="true"
+    >
+      {{ message }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="showMessage = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
     <v-row>
       <v-col cols="12">
         <v-file-input
