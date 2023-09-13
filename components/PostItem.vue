@@ -7,8 +7,7 @@
       <p class="text-caption"><span v-if="item.user">{{ item.user.name }} / </span>{{ item.created_at}}</p>
       <v-img
         v-if="item.image.url"
-        max-height="150"
-        max-width="250"
+        max-width="100%"
         :src="item.image.url"
         class="mb-4"
       ></v-img>
