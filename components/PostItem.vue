@@ -71,7 +71,7 @@ export default {
         navigator.share({
           title: this.item.title,
           text: this.item.text_body,
-          url: `${window.location.origin}/posts/${this.item.id}/comment`
+          url: `${window.location.origin}/posts/comment/?id=${this.item.id}`
         })
       }
     },
