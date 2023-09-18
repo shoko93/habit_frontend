@@ -24,7 +24,6 @@
           <v-btn icon @click="like"><v-icon :color="iconColor(item.like)">mdi-thumb-up</v-icon></v-btn>
           <v-btn icon :to="'/posts/' + item.id + '/comment'"><v-icon>mdi-comment-text</v-icon></v-btn>
           <v-btn icon @click="bookmark"><v-icon :color="iconColor(item.bookmark)">mdi-heart</v-icon></v-btn>
-          <v-btn icon v-if="isNavigatorShareButton" @click="navigatorShare"><v-icon>mdi-share-variant</v-icon></v-btn>
           <v-btn icon v-if="item.line_id==currentUserId" :to="'/posts/' + item.id + '/edit'"><v-icon>mdi-pencil</v-icon></v-btn>
           <v-btn icon v-if="item.line_id==currentUserId" @click="deleteConfirm(item)"><v-icon>mdi-delete</v-icon></v-btn>
         </v-col>
@@ -51,13 +50,9 @@ export default {
       showDialog: false,
       showIcon: false,
       deleteIndex: 0,
-      isNavigatorShareButton: true,
     };
   },
   mounted() {
-    if (navigator.share === undefined) {
-      this.isNavigatorShareButton = false
-    }
     this.item = JSON.parse(JSON.stringify(this.post))
   },
   watch: { 
@@ -66,15 +61,6 @@ export default {
     }
   },
   methods: {
-    navigatorShare() {
-      if (navigator.share) {
-        navigator.share({
-          title: this.item.title,
-          text: this.item.text_body,
-          url: `${window.location.origin}/posts/${this.item.id}/comment`
-        })
-      }
-    },
     iconColor: function(like) {
       return like ? "blue" : ""
     },
