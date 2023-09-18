@@ -29,8 +29,7 @@
       <v-row v-if="item.image.url">
         <v-col col="12">
           <v-img
-            max-height="150"
-            max-width="250"
+            max-width="100%"
             :src="item.image.url"
           ></v-img>
         </v-col>

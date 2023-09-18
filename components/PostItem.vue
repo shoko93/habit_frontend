@@ -21,17 +21,11 @@
     <v-card-actions>
       <v-row>
         <v-col col="12" class="text-right">
-          <div v-if="showIcon" style="display:inline;">
-            <v-btn icon @click="like"><v-icon :color="iconColor(item.like)">mdi-thumb-up</v-icon></v-btn>
-            <v-btn icon :to="'/posts/' + item.id + '/comment'"><v-icon>mdi-comment-text</v-icon></v-btn>
-            <v-btn icon @click="bookmark"><v-icon :color="iconColor(item.bookmark)">mdi-heart</v-icon></v-btn>
-            <v-btn icon v-if="item.line_id==currentUserId" :to="'/posts/' + item.id + '/edit'"><v-icon>mdi-pencil</v-icon></v-btn>
-            <v-btn icon v-if="item.line_id==currentUserId" @click="deleteConfirm(item)"><v-icon>mdi-delete</v-icon></v-btn>
-          </div>
-          <div style="display:inline;" class="text-right">
-            <v-btn v-if="!showIcon" icon @click="showIcon=true"><v-icon>mdi-plus-circle</v-icon></v-btn>
-            <v-btn v-if="showIcon" icon @click="showIcon=false"><v-icon>mdi-minus-circle</v-icon></v-btn>
-          </div>
+          <v-btn icon @click="like"><v-icon :color="iconColor(item.like)">mdi-thumb-up</v-icon></v-btn>
+          <v-btn icon :to="'/posts/' + item.id + '/comment'"><v-icon>mdi-comment-text</v-icon></v-btn>
+          <v-btn icon @click="bookmark"><v-icon :color="iconColor(item.bookmark)">mdi-heart</v-icon></v-btn>
+          <v-btn icon v-if="item.line_id==currentUserId" :to="'/posts/' + item.id + '/edit'"><v-icon>mdi-pencil</v-icon></v-btn>
+          <v-btn icon v-if="item.line_id==currentUserId" @click="deleteConfirm(item)"><v-icon>mdi-delete</v-icon></v-btn>
         </v-col>
       </v-row>
     </v-card-actions>

@@ -13,7 +13,7 @@
     <DeleteDialog
       :showDialog="showDialog"
       @closeDialog="showDialog=false"
-      @deletePost="deletePost"
+      @deleteItem="deletePost"
     ></DeleteDialog>
   </div>
 </template>

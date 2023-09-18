@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer app v-model="drawer">
+    <v-navigation-drawer app v-model="drawer" :bottom="true">
       <!-- -->
       <v-list
         dense
@@ -8,28 +8,28 @@
       >
         <v-list-item to='/'>
           <v-list-item-content>
-            <v-list-item-title>一覧</v-list-item-title>
+            <v-list-item-title><v-icon>mdi-format-list-bulleted</v-icon> 一覧</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item to='/posts/create'>
           <v-list-item-content>
-            <v-list-item-title>新規登録</v-list-item-title>
+            <v-list-item-title><v-icon>mdi-pencil</v-icon> 新規登録</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item to='/posts/bookmark'>
           <v-list-item-content>
-            <v-list-item-title>お気に入り</v-list-item-title>
+            <v-list-item-title><v-icon>mdi-heart</v-icon> お気に入り</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="logout">
           <v-list-item-content>
-            <v-list-item-title>ログアウト</v-list-item-title>
+            <v-list-item-title><v-icon>mdi-logout</v-icon> ログアウト</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app>
+    <v-app-bar app v-if="!$vuetify.breakpoint.mobile">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <!-- -->
     </v-app-bar>
@@ -45,6 +45,16 @@
 
     <v-footer app>
       <!-- -->
+      <v-row v-if="$vuetify.breakpoint.mobile">
+        <v-col col="12" class="text-right">
+          <v-btn
+            elevation="2"
+            fab
+            icon
+            @click="drawer=true"
+          ><v-icon>mdi-menu</v-icon></v-btn>
+        </v-col>
+      </v-row>
     </v-footer>
   </v-app>
 </template>

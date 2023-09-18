@@ -8,7 +8,7 @@
         削除しますか？
       </v-card-text>
       <v-card-actions>
-        <v-btn text @click="$emit('deletePost')">はい</v-btn>
+        <v-btn text @click="$emit('deleteItem')">はい</v-btn>
         <v-btn text @click="$emit('closeDialog')">いいえ</v-btn>
       </v-card-actions>
     </v-card>
