@@ -94,7 +94,7 @@
     async mounted() {
       this.$liffInit
         .then(() => {
-            axios.post(`/posts/${this.$route.params.id}`, {line_id_token: this.$liff.getIDToken()})
+            axios.post(`/posts/${this.$route.query.id}`, {line_id_token: this.$liff.getIDToken()})
               .then((response) => {
                 this.item = response.data
                 response.data.tags.forEach((element) => {
@@ -126,11 +126,11 @@
           tags: this.select,
           line_id_token: this.$liff.getIDToken()
         }
-        axios.patch(`/posts/${this.$route.params.id}`, {post: data})
+        axios.patch(`/posts/${this.$route.query.id}`, {post: data})
           .then((response) => {
             if (this.addImage) {
               const formData = new FormData()
-              formData.append('id', this.$route.params.id)
+              formData.append('id', this.$route.query.id)
               formData.append('image', this.addImage)
               const config = {
                 headders: {
