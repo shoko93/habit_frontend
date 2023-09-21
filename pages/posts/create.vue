@@ -10,7 +10,7 @@
           color="blue"
           text
           v-bind="attrs"
-          @click="showMessage = false"
+          @click="closeMessage"
         >
           Close
         </v-btn>
@@ -94,6 +94,10 @@ export default {
       })
   },
   methods: {
+    closeMessage: function() {
+      this.showMessage = false
+      this.$router.push({path: '/#post-list'})
+    },
     submit: function() {
       let data = {
         title: this.title,
