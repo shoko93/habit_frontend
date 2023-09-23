@@ -46,7 +46,15 @@
     <v-footer app>
       <!-- -->
       <v-row v-if="$vuetify.breakpoint.mobile">
-        <v-col col="12" class="text-right">
+        <v-col col="6">
+          <v-btn
+            elevation="2"
+            fab
+            icon
+            @click="$router.go(-1)"
+          ><v-icon>mdi-chevron-left</v-icon></v-btn>
+        </v-col>
+        <v-col col="6" class="text-right">
           <v-btn
             elevation="2"
             fab
